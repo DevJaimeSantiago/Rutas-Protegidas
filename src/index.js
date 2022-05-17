@@ -11,20 +11,34 @@ import Inicio from "./routes/Inicio";
 import Notfound from "./routes/Notfound";
 import Posts from "./routes/Posts";
 
+import UserProvider from "./context/UserProvider";
+import RutaProtegida from "./routes/RutaProtegida";
+import VerificarUsuario from "./components/VerificarUsuario";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route index element={<Inicio />} />
-          <Route path="blog" element={<Blog />} />
-          <Route path="blog/:id" element={<Posts />} />
-          <Route path="contacto" element={<Contacto />} />
+      <UserProvider>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route index element={<Inicio />} />
+            <Route path="blog" element={<Blog />} />
+            <Route path="blog/:id" element={<Posts />} />
+            <Route path="contacto" element={<Contacto />} />
 
-          <Route path="*" element={<Notfound />} />
-        </Route>
-      </Routes>
+            <Route
+              path="protegida"
+              element={
+                <VerificarUsuario>
+                  <RutaProtegida />
+                </VerificarUsuario>
+              }
+            />
+            <Route path="*" element={<Notfound />} />
+          </Route>
+        </Routes>
+      </UserProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
